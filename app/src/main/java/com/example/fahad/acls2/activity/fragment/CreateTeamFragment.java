@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.example.fahad.acls2.R;
 import com.example.fahad.acls2.activity.adapter.PlayerInfoAdapter;
+import com.example.fahad.acls2.activity.interfaces.FragmentInterface;
+import com.example.fahad.acls2.activity.interfaces.PlayerInterface;
 import com.example.fahad.acls2.activity.model.PlayerBean;
 
 import java.util.ArrayList;
@@ -30,13 +32,17 @@ import java.util.stream.Collectors;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class CreateTeamFragment extends Fragment {
 
     ListView list_player;
     View mView;
     int Player_Type;
-    public CreateTeamFragment() {
+    PlayerInterface playerInterface;
+    FragmentInterface fragmentInterface;
 
+    public CreateTeamFragment(FragmentInterface fragmentInterface) {
+        this.fragmentInterface=fragmentInterface;
     }
 
 
@@ -103,11 +109,15 @@ public class CreateTeamFragment extends Fragment {
         player.add(new PlayerBean("GHI","PK","3",318.5,20.0,false));
         player.add(new PlayerBean("GHI","AU","3",319.5,20.0,false));
         List<PlayerBean>list=player.stream().filter(p->p.getSkill().equals(String.valueOf(Player_Type))).collect(Collectors.toList());
-        for(PlayerBean bean:list) {
-            Log.e("List2-->", bean.toString());
-        }
 
-        PlayerInfoAdapter adapter=new PlayerInfoAdapter(mView.getContext(),R.layout.player_info_adapter,list);
+        playerInterface=new PlayerInterface() {
+            @Override
+            public void playerCount(int type, int count) {
+//                Toast.makeText(mView.getContext(), type+","+count, Toast.LENGTH_SHORT).show();
+                fragmentInterface.playerCount(type,count);
+            }
+        };
+        PlayerInfoAdapter adapter=new PlayerInfoAdapter(mView.getContext(),R.layout.player_info_adapter,list,Player_Type,playerInterface);
         list_player.setAdapter(adapter);
 
 
