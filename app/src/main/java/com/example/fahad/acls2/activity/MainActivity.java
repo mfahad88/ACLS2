@@ -9,7 +9,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.fahad.acls2.R;
-import com.example.fahad.acls2.activity.adapter.fixtureAdapter;
+import com.example.fahad.acls2.activity.adapter.FixtureAdapter;
+
 import com.example.fahad.acls2.activity.model.MatchesBean;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         list.add(new MatchesBean(2,"IN","BD","15:30:00"));
         list.add(new MatchesBean(3,"ZA","ZW","16:30:00"));
         list.add(new MatchesBean(4,"PK","IK","17:30:00"));
-        fixtureAdapter fixtureAdapter=new fixtureAdapter(this,R.layout.list_fixture,list);
+        FixtureAdapter fixtureAdapter=new FixtureAdapter(this,R.layout.list_fixture,list);
         list_matches.setAdapter(fixtureAdapter);
         list_matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

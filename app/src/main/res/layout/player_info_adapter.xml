@@ -8,7 +8,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:background="@drawable/drawable_au"
         android:id="@+id/image_view_player"/>
 
     <LinearLayout
@@ -20,7 +19,6 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="30dp"
-            android:text="Muhammad FAHAD"
             android:textAlignment="textStart"
             android:textSize="10sp"
             android:textColor="@android:color/black"
@@ -36,7 +34,6 @@
                 android:id="@+id/txt_short_country"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:text="PK"
                 android:textColor="#e1e1e1"
                 android:textStyle="bold" />
 
@@ -49,7 +46,6 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="20dp"
-                android:text="WKT"
                 android:textColor="#e1e1e1"
                 android:id="@+id/txt_skill_player"/>
         </LinearLayout>
@@ -66,7 +62,6 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="30dp"
-            android:text="312.5"
             android:textColor="#7b7a7a"
             android:layout_gravity="center"
             android:gravity="center"
@@ -84,7 +79,6 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="30dp"
-            android:text="10.5"
             android:textStyle="bold"
             android:textColor="#505050"
             android:textAlignment="center"
@@ -120,6 +114,7 @@
             android:layout_height="30dp"
             android:scaleType="centerInside"
             android:id="@+id/image_view_plus"
+            android:visibility="invisible"
             android:background="@drawable/drawable_plus"/>
     </LinearLayout>
 </LinearLayout>

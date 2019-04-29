@@ -5,10 +5,10 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@drawable/drawable_bd"
+        android:icon="@drawable/drawable_pk"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@drawable/drawable_bd"
+        android:roundIcon="@drawable/drawable_pk"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity">
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ContestActivity" />
-        <activity android:name=".activity.TeamActivity"></activity>
+        <activity android:name=".activity.TeamActivity" />
     </application>
 
 </manifest>

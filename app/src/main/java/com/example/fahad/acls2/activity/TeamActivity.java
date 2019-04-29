@@ -14,19 +14,21 @@ import com.example.fahad.acls2.activity.adapter.PageAdapter;
 public class TeamActivity extends AppCompatActivity {
     private ViewPager pager;
     private TabLayout tab_layout;
-
+    PagerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
         pager=findViewById(R.id.pager);
+
         tab_layout=findViewById(R.id.tab_layout);
         tab_layout.addTab(tab_layout.newTab().setText("WK"));
         tab_layout.addTab(tab_layout.newTab().setText("BAT"));
         tab_layout.addTab(tab_layout.newTab().setText("AR"));
         tab_layout.addTab(tab_layout.newTab().setText("BOWL"));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
-        PagerAdapter adapter=new PageAdapter(getSupportFragmentManager(),tab_layout.getTabCount());
+        pager.setOffscreenPageLimit(tab_layout.getTabCount());
+        adapter = new PageAdapter(getSupportFragmentManager(),tab_layout.getTabCount());
         pager.setAdapter(adapter);
         tab_layout.setTabTextColors(ColorStateList.valueOf(Color.BLACK));
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

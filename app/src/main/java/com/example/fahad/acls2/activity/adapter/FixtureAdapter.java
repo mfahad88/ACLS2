@@ -20,11 +20,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class fixtureAdapter extends BaseAdapter {
+public class FixtureAdapter extends BaseAdapter {
     Context context;
     int resource;
     List<MatchesBean> list;
-    public fixtureAdapter(Context context, int resource, List<MatchesBean> list) {
+    public FixtureAdapter(Context context, int resource, List<MatchesBean> list) {
         this.context=context;
         this.resource=resource;
         this.list=list;
