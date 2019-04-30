@@ -26,7 +26,7 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
     int count_bat=0;
     int count_alrounder=0;
     int count_bowl=0;
-    int count_keeper=0;
+    int count_main=0;
     PlayerInterface playerInterface;
     public PlayerInfoAdapter(Context context, int resource, List<PlayerBean> list, int player_Type, PlayerInterface playerInterface) {
         super(context,resource,list);
@@ -69,7 +69,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_wk==1) {
                             count_wk--;
-                            playerInterface.playerCount(player_Type,count_wk);
+                            count_main--;
+                            playerInterface.playerCount(player_Type,count_wk,count_main);
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -77,13 +78,12 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_wk==0) {
                             count_wk++;
-                            playerInterface.playerCount(player_Type,count_wk);
+                            count_main++;
+                            playerInterface.playerCount(player_Type,count_wk,count_main);
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
                         }
-
-
                     }
                 }
 
@@ -98,7 +98,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_bat>1) {
                             count_bat--;
-                            playerInterface.playerCount(player_Type,count_bat);
+                            count_main--;
+                            playerInterface.playerCount(player_Type,count_bat,count_main);
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -106,7 +107,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_bat<5) {
                             count_bat++;
-                            playerInterface.playerCount(player_Type,count_bat);
+                            count_main++;
+                            playerInterface.playerCount(player_Type,count_bat,count_main);
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
@@ -127,7 +129,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_alrounder>1) {
                             count_alrounder--;
-                            playerInterface.playerCount(player_Type,count_alrounder);
+                            count_main--;
+                            playerInterface.playerCount(player_Type,count_alrounder,count_main);
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -135,7 +138,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_alrounder<3) {
                             count_alrounder++;
-                            playerInterface.playerCount(player_Type,count_alrounder);
+                            count_main++;
+                            playerInterface.playerCount(player_Type,count_alrounder,count_main);
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
@@ -156,7 +160,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_bowl>1) {
                             count_bowl--;
-                            playerInterface.playerCount(player_Type,count_bowl);
+                            count_main--;
+                            playerInterface.playerCount(player_Type,count_bowl,count_main);
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -164,7 +169,8 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_bowl<5) {
                             count_bowl++;
-                            playerInterface.playerCount(player_Type,count_bowl);
+                            count_main++;
+                            playerInterface.playerCount(player_Type,count_bowl,count_main);
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);

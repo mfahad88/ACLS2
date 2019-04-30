@@ -1,7 +1,9 @@
 package com.example.fahad.acls2.activity.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
@@ -13,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.fahad.acls2.R;
-import com.example.fahad.acls2.activity.TeamActivity;
+import com.example.fahad.acls2.activity.fragment.TeamFragment;
 import com.example.fahad.acls2.activity.model.ContestBean;
 
 import java.util.List;
@@ -78,8 +80,10 @@ public class ContestAdapter extends BaseAdapter {
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context,TeamActivity.class);
-                context.startActivity(i);
+                Fragment fragment=new TeamFragment();
+                FragmentTransaction ft=((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.main_content,fragment);
+                ft.commit();
             }
         });
         return convertView;

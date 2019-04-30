@@ -11,15 +11,18 @@
         android:roundIcon="@drawable/drawable_pk"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"/>
+        <activity
+            android:name=".activity.StartActivity"
+            android:label="@string/title_activity_start">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".activity.ContestActivity" />
-        <activity android:name=".activity.TeamActivity" />
     </application>
 
 </manifest>

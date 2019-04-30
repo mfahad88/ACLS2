@@ -1,36 +1,50 @@
-package com.example.fahad.acls2.activity;
+package com.example.fahad.acls2.activity.fragment;
+
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.fahad.acls2.R;
 import com.example.fahad.acls2.activity.adapter.PageAdapter;
 import com.example.fahad.acls2.activity.interfaces.FragmentInterface;
 
-public class TeamActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TeamFragment extends Fragment {
     private ViewPager pager;
     private TabLayout tab_layout;
     PagerAdapter adapter;
     FragmentInterface fragmentInterface;
     int count_keeper=0;
     String wkt_keeper="";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_team);
-        pager=findViewById(R.id.pager);
+    private View mView;
+    public TeamFragment() {
+        // Required empty public constructor
+    }
 
-        tab_layout=findViewById(R.id.tab_layout);
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mView=inflater.inflate(R.layout.fragment_team, container, false);
+
+        pager=mView.findViewById(R.id.pager);
+
+        tab_layout=mView.findViewById(R.id.tab_layout);
         fragmentInterface=new FragmentInterface() {
             @Override
-            public void playerCount(int type, int count) {
-                Toast.makeText(TeamActivity.this, type+","+count, Toast.LENGTH_SHORT).show();
+            public void playerCount(int type, int count, int main) {
+                //Toast.makeText(TeamActivity.this, type+","+count+","+main, Toast.LENGTH_SHORT).show();
                 if(type==3){
                     tab_layout.getTabAt(0).setText("WK ("+count+")");
                 }if(type==0){
@@ -48,7 +62,7 @@ public class TeamActivity extends AppCompatActivity {
         tab_layout.addTab(tab_layout.newTab().setText("BOWL (0)"));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         pager.setOffscreenPageLimit(tab_layout.getTabCount());
-        adapter = new PageAdapter(getSupportFragmentManager(),tab_layout.getTabCount(),fragmentInterface);
+        adapter = new PageAdapter(getFragmentManager(),tab_layout.getTabCount(),fragmentInterface);
         pager.setAdapter(adapter);
         tab_layout.setTabTextColors(ColorStateList.valueOf(Color.BLACK));
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -67,5 +81,7 @@ public class TeamActivity extends AppCompatActivity {
 
             }
         });
+        return mView;
     }
+
 }

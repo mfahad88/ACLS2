@@ -112,9 +112,9 @@ public class CreateTeamFragment extends Fragment {
 
         playerInterface=new PlayerInterface() {
             @Override
-            public void playerCount(int type, int count) {
+            public void playerCount(int type, int count,int main) {
 //                Toast.makeText(mView.getContext(), type+","+count, Toast.LENGTH_SHORT).show();
-                fragmentInterface.playerCount(type,count);
+                fragmentInterface.playerCount(type,count,main);
             }
         };
         PlayerInfoAdapter adapter=new PlayerInfoAdapter(mView.getContext(),R.layout.player_info_adapter,list,Player_Type,playerInterface);

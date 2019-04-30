@@ -1,7 +1,11 @@
-package com.example.fahad.acls2.activity;
+package com.example.fahad.acls2.activity.fragment;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.fahad.acls2.R;
@@ -11,15 +15,27 @@ import com.example.fahad.acls2.activity.model.ContestBean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContestActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ContestFragment extends Fragment {
+    private View mView;
     private int match_Id;
     private List<ContestBean> list;
     private ListView list_contest;
+
+    public ContestFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contest);
-        list_contest=findViewById(R.id.list_contest);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mView=inflater.inflate(R.layout.fragment_contest, container, false);
+
+        list_contest=mView.findViewById(R.id.list_contest);
         /*if(getIntent()!=null){
             match_Id=getIntent().getIntExtra("Id",0);
         }*/
@@ -30,7 +46,9 @@ public class ContestActivity extends AppCompatActivity {
         list.add(new ContestBean("4000 RS",80,"10,000 spots left","40 winners","0","5000","M","N","B"));
         list.add(new ContestBean("4000 RS",100,"10,000 spots left","40 winners","0","5000","M","N","B"));
 
-        ContestAdapter adapter=new ContestAdapter(ContestActivity.this,R.layout.list_contest,list);
+        ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.list_contest,list);
         list_contest.setAdapter(adapter);
+        return mView;
     }
+
 }
