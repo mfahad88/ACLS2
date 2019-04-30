@@ -1,6 +1,7 @@
-package com.example.fahad.acls2.activity.adapter;
+package com.psl.fantasy.league.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +15,10 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.fahad.acls2.R;
-import com.example.fahad.acls2.activity.fragment.TeamFragment;
-import com.example.fahad.acls2.activity.model.ContestBean;
+
+import com.psl.fantasy.league.fragment.TeamFragment;
+import com.psl.fantasy.league.model.ui.ContestBean;
+import com.psl.fantasy.league.R;
 
 import java.util.List;
 
@@ -72,15 +74,22 @@ public class ContestAdapter extends BaseAdapter {
         txt_price.setText(bean.getPrice());
         txt_winners.setText(bean.getWinners());
         txt_contest_type_one.setText(bean.getContest_type());
-        txt_multi.setText(bean.getMultiple());
-        if(bean.getConfirm_winning().equalsIgnoreCase("C")){
+        if(bean.getMultiple().equalsIgnoreCase("1")) {
+            txt_multi.setText("M");
+        }else{
+            txt_multi.setText("S");
+        }
+        if(bean.getConfirm_winning().equalsIgnoreCase("1")){
             txt_confirm_winning.setVisibility(View.VISIBLE);
-            txt_confirm_winning.setText(bean.getConfirm_winning());
+            txt_confirm_winning.setText("C");
         }
         btn_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment fragment=new TeamFragment();
+                Bundle bundle=new Bundle();
+                bundle.putInt("contestId",bean.getContestId());
+                fragment.setArguments(bundle);
                 FragmentTransaction ft=((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.main_content,fragment);
                 ft.commit();

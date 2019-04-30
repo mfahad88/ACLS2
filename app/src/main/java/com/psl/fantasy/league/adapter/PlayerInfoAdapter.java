@@ -1,18 +1,19 @@
-package com.example.fahad.acls2.activity.adapter;
+package com.psl.fantasy.league.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.fahad.acls2.R;
-import com.example.fahad.acls2.activity.interfaces.PlayerInterface;
-import com.example.fahad.acls2.activity.model.PlayerBean;
+import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.interfaces.PlayerInterface;
+import com.psl.fantasy.league.model.ui.PlayerBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
     int count_alrounder=0;
     int count_bowl=0;
     int count_main=0;
+    
     PlayerInterface playerInterface;
     public PlayerInfoAdapter(Context context, int resource, List<PlayerBean> list, int player_Type, PlayerInterface playerInterface) {
         super(context,resource,list);
@@ -50,7 +52,9 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
         TextView txt_skill_player = convertView.findViewById(R.id.txt_skill_player);
         TextView txt_points = convertView.findViewById(R.id.txt_points);
         TextView txt_credits = convertView.findViewById(R.id.txt_credits);
-        ImageView image_view_plus=convertView.findViewById(R.id.image_view_plus) ;
+        TextView txt_captain=convertView.findViewById(R.id.txt_captain);
+        TextView txt_vice_captain=convertView.findViewById(R.id.txt_vice_captain);
+//        ImageView image_view_plus=convertView.findViewById(R.id.image_view_plus) ;
 
         PlayerBean bean=list.get(position);
         txt_player_name.setText(bean.getName());
@@ -69,8 +73,10 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_wk==1) {
                             count_wk--;
-                            count_main--;
-                            playerInterface.playerCount(player_Type,count_wk,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_wk);
+                            playerInterface.count('-');
+                            playerInterface.credit(bean.getCredits());
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -78,8 +84,10 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_wk==0) {
                             count_wk++;
-                            count_main++;
-                            playerInterface.playerCount(player_Type,count_wk,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_wk);
+                            playerInterface.count('+');
+                            playerInterface.credit(bean.getCredits());
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
@@ -98,8 +106,10 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_bat>1) {
                             count_bat--;
-                            count_main--;
-                            playerInterface.playerCount(player_Type,count_bat,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_bat);
+                            playerInterface.count('-');
+                            playerInterface.credit(bean.getCredits());
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -107,8 +117,10 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_bat<5) {
                             count_bat++;
-                            count_main++;
-                            playerInterface.playerCount(player_Type,count_bat,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_bat);
+                            playerInterface.count('+');
+                            playerInterface.credit(bean.getCredits());
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
@@ -129,8 +141,11 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_alrounder>1) {
                             count_alrounder--;
-                            count_main--;
-                            playerInterface.playerCount(player_Type,count_alrounder,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_alrounder);
+                            playerInterface.count('-');
+                            playerInterface.credit(bean.getCredits());
+
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -138,8 +153,11 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_alrounder<3) {
                             count_alrounder++;
-                            count_main++;
-                            playerInterface.playerCount(player_Type,count_alrounder,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_alrounder);
+                            playerInterface.count('+');
+                            playerInterface.credit(bean.getCredits());
+
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
@@ -160,8 +178,11 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     if (list.get(position).isChecked()) {
                         if(count_bowl>1) {
                             count_bowl--;
-                            count_main--;
-                            playerInterface.playerCount(player_Type,count_bowl,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_bowl);
+                            playerInterface.count('-');
+                            playerInterface.credit(bean.getCredits());
+
                             finalConvertView.setSelected(false);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                             bean.setChecked(false);
@@ -169,8 +190,10 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                     } else {
                         if(count_bowl<5) {
                             count_bowl++;
-                            count_main++;
-                            playerInterface.playerCount(player_Type,count_bowl,count_main);
+                            
+                            playerInterface.playerCount(player_Type,count_bowl);
+                            playerInterface.count('+');
+                            playerInterface.credit(bean.getCredits());
                             finalConvertView.setSelected(true);
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
@@ -182,6 +205,37 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
 
             });
         }
+//        if(count_wk==1 && count_alrounder==3 && count_bat==5 && count_bowl==5){
+        finalConvertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(context, "Long Pressed", Toast.LENGTH_SHORT).show();
+                PopupMenu menu=new PopupMenu(context, finalConvertView);
+                menu.getMenu().add("Captain");
+                menu.getMenu().add("Vice Captain");
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getTitle().equals("Captain")){
+                            bean.setCaptain(true);
+                            txt_captain.setVisibility(View.VISIBLE);
+                        }else{
+                            bean.setViceCaptain(true);
+                            txt_vice_captain.setVisibility(View.VISIBLE);
+
+                        }
+                        return true;
+                    }
+                });
+                menu.show();
+                return true;
+            }
+        });
+//        }
+
+
+
+
 
         if(list.get(position).isChecked()){
             convertView.setSelected(true);

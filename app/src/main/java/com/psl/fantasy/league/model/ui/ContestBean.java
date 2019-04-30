@@ -1,7 +1,7 @@
-package com.example.fahad.acls2.activity.model;
+package com.psl.fantasy.league.model.ui;
 
 public class ContestBean {
-
+    private int contestId;
     private String price;
     private int progress;
     private String spots_left;
@@ -12,7 +12,8 @@ public class ContestBean {
     private String confirm_winning;
     private String contest_type;
 
-    public ContestBean(String price, int progress, String spots_left, String winners, String discount, String actual_price, String multiple, String confirm_winning, String contest_type) {
+    public ContestBean(int contestId, String price, int progress, String spots_left, String winners, String discount, String actual_price, String multiple, String confirm_winning, String contest_type) {
+        this.contestId = contestId;
         this.price = price;
         this.progress = progress;
         this.spots_left = spots_left;
@@ -22,6 +23,14 @@ public class ContestBean {
         this.multiple = multiple;
         this.confirm_winning = confirm_winning;
         this.contest_type = contest_type;
+    }
+
+    public int getContestId() {
+        return contestId;
+    }
+
+    public void setContestId(int contestId) {
+        this.contestId = contestId;
     }
 
     public String getPrice() {
@@ -94,5 +103,21 @@ public class ContestBean {
 
     public void setContest_type(String contest_type) {
         this.contest_type = contest_type;
+    }
+
+    @Override
+    public String toString() {
+        return "ContestBean{" +
+                "contestId=" + contestId +
+                ", price='" + price + '\'' +
+                ", progress=" + progress +
+                ", spots_left='" + spots_left + '\'' +
+                ", winners='" + winners + '\'' +
+                ", discount='" + discount + '\'' +
+                ", actual_price='" + actual_price + '\'' +
+                ", multiple='" + multiple + '\'' +
+                ", confirm_winning='" + confirm_winning + '\'' +
+                ", contest_type='" + contest_type + '\'' +
+                '}';
     }
 }

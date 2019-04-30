@@ -115,7 +115,6 @@
                 android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/drawable_cup"
                 android:drawablePadding="5dp"
                 android:layout_marginLeft="12dp"
                 android:text="22,45,125 winners"
@@ -131,7 +130,7 @@
                 android:textAlignment="center"
                 android:gravity="center_vertical"
                 android:layout_marginRight="10dp"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"/>
 

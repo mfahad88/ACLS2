@@ -1,4 +1,4 @@
-package com.example.fahad.acls2.activity.model;
+package com.psl.fantasy.league.model.ui;
 
 public class PlayerBean {
     private String name;
@@ -7,14 +7,18 @@ public class PlayerBean {
     private double points;
     private double credits;
     private boolean isChecked;
+    private boolean isCaptain;
+    private boolean isViceCaptain;
 
-    public PlayerBean(String name, String short_country, String skill, double points, double credits, boolean isChecked) {
+    public PlayerBean(String name, String short_country, String skill, double points, double credits, boolean isChecked, boolean isCaptain, boolean isViceCaptain) {
         this.name = name;
         this.short_country = short_country;
         this.skill = skill;
         this.points = points;
         this.credits = credits;
         this.isChecked = isChecked;
+        this.isCaptain = isCaptain;
+        this.isViceCaptain = isViceCaptain;
     }
 
     public String getName() {
@@ -65,6 +69,22 @@ public class PlayerBean {
         isChecked = checked;
     }
 
+    public boolean isCaptain() {
+        return isCaptain;
+    }
+
+    public void setCaptain(boolean captain) {
+        isCaptain = captain;
+    }
+
+    public boolean isViceCaptain() {
+        return isViceCaptain;
+    }
+
+    public void setViceCaptain(boolean viceCaptain) {
+        isViceCaptain = viceCaptain;
+    }
+
     @Override
     public String toString() {
         return "PlayerBean{" +
@@ -74,6 +94,8 @@ public class PlayerBean {
                 ", points=" + points +
                 ", credits=" + credits +
                 ", isChecked=" + isChecked +
+                ", isCaptain=" + isCaptain +
+                ", isViceCaptain=" + isViceCaptain +
                 '}';
     }
 }

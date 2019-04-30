@@ -1,4 +1,4 @@
-package com.example.fahad.acls2.activity.adapter;
+package com.psl.fantasy.league.adapter;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-import com.example.fahad.acls2.activity.fragment.CreateTeamFragment;
-import com.example.fahad.acls2.activity.interfaces.FragmentInterface;
+import com.psl.fantasy.league.fragment.CreateTeamFragment;
+import com.psl.fantasy.league.interfaces.FragmentInterface;
 
 public class PageAdapter extends FragmentPagerAdapter {
 

@@ -1,4 +1,4 @@
-package com.example.fahad.acls2.activity;
+package com.psl.fantasy.league;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.fahad.acls2.R;
-import com.example.fahad.acls2.activity.fragment.DashboardFragment;
+import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.fragment.DashboardFragment;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -35,12 +35,12 @@ public class StartActivity extends AppCompatActivity {
                         ft.replace(R.id.main_content,fragment);
                         ft.commit();
                         return true;
-                    case R.id.navigation_dashboard:
+                    /*case R.id.navigation_dashboard:
                         mTextMessage.setText(R.string.title_dashboard);
                         return true;
                     case R.id.navigation_notifications:
                         mTextMessage.setText(R.string.title_notifications);
-                        return true;
+                        return true;*/
                 }
                 return false;
             }

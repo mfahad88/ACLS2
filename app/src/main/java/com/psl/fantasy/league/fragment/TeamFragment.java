@@ -1,4 +1,4 @@
-package com.example.fahad.acls2.activity.fragment;
+package com.psl.fantasy.league.fragment;
 
 
 import android.content.res.ColorStateList;
@@ -11,10 +11,14 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.fahad.acls2.R;
-import com.example.fahad.acls2.activity.adapter.PageAdapter;
-import com.example.fahad.acls2.activity.interfaces.FragmentInterface;
+import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.Utils.Helper;
+import com.psl.fantasy.league.adapter.PageAdapter;
+import com.psl.fantasy.league.interfaces.FragmentInterface;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,26 +29,42 @@ public class TeamFragment extends Fragment {
     PagerAdapter adapter;
     FragmentInterface fragmentInterface;
     int count_keeper=0;
+    int main=0;
+    double credit=0;
     String wkt_keeper="";
     private View mView;
+    private TextView txt_player_count;
+    private TextView txt_credit_count;
+    public char sign;
+    private int contestId;
+    private Button btn_done;
     public TeamFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(mView.getContext(), "OnResume TeamFragment", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView=inflater.inflate(R.layout.fragment_team, container, false);
-
+        if(getArguments()!=null){
+            contestId=getArguments().getInt("contestId");
+        }
+        btn_done=mView.findViewById(R.id.btn_done);
         pager=mView.findViewById(R.id.pager);
-
+        txt_player_count=mView.findViewById(R.id.txt_player_count);
+        txt_credit_count= mView.findViewById(R.id.txt_credit_count);
         tab_layout=mView.findViewById(R.id.tab_layout);
         fragmentInterface=new FragmentInterface() {
             @Override
-            public void playerCount(int type, int count, int main) {
-                //Toast.makeText(TeamActivity.this, type+","+count+","+main, Toast.LENGTH_SHORT).show();
+            public void playerCount(int type, int count) {
+//                Toast.makeText(TeamActivity.this, type+","+count+","+main, Toast.LENGTH_SHORT).show();
                 if(type==3){
                     tab_layout.getTabAt(0).setText("WK ("+count+")");
                 }if(type==0){
@@ -55,6 +75,39 @@ public class TeamFragment extends Fragment {
                     tab_layout.getTabAt(3).setText("BOWL ("+count+")");
                 }
             }
+
+            @Override
+            public void count(char ch) {
+                sign=ch;
+                if(ch=='+'){
+
+                    main++;
+                }else{
+                    main--;
+                }
+                txt_player_count.setText(String.valueOf(main));
+                if(main==14){
+                    btn_done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Helper.showAlertNetural(mView.getContext(),"Suceess","Team Saved...");
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void credit(double count) {
+                if(sign=='+') {
+                    credit = credit + count;
+                }else {
+                    credit = credit - count;
+                }
+//                Toast.makeText(mView.getContext(), String.valueOf(credit), Toast.LENGTH_SHORT).show();
+                txt_credit_count.setText(String.valueOf(credit));
+            }
+
         };
         tab_layout.addTab(tab_layout.newTab().setText("WK (0)"));
         tab_layout.addTab(tab_layout.newTab().setText("BAT (0)"));

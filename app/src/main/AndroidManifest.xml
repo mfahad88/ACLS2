@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fahad.acls2">
+    package="com.psl.fantasy.league">
 
     <application
         android:allowBackup="true"
@@ -10,11 +10,11 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/drawable_pk"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"/>
+
         <activity
-            android:name=".activity.StartActivity"
-            android:label="@string/title_activity_start">
+            android:name=".StartActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
