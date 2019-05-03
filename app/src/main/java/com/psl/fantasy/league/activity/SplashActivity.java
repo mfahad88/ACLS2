@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
 import com.psl.fantasy.league.R;
 import com.psl.fantasy.league.Utils.DbHelper;
 import com.psl.fantasy.league.Utils.Helper;
@@ -29,12 +31,18 @@ public class SplashActivity extends AppCompatActivity {
 
         dbHelper=new DbHelper(this);
         JSONObject obj=new JSONObject();
+        Helper.printHashKey(this);
+        FacebookSdk.setApplicationId(getString(R.string.facebook_app_id));
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
+        FacebookSdk.setAutoLogAppEventsEnabled(true);
         try{
             obj.put("param_type","GF");
             obj.put("userId","1001");
             obj.put("method_Name",this.getClass().getSimpleName()+".onCreate");
             System.out.println(obj.toString());
-
+            dbHelper.deletePlayer();
+            dbHelper.deleteConfig();
             ApiClient.getInstance().getPlayersMatches().enqueue(new Callback<PlayerResponse>() {
                 @Override
                 public void onResponse(Call<PlayerResponse> call, Response<PlayerResponse> response) {

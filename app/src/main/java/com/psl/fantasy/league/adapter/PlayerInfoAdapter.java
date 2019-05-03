@@ -2,16 +2,20 @@ package com.psl.fantasy.league.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.Utils.DbHelper;
 import com.psl.fantasy.league.interfaces.PlayerInterface;
 import com.psl.fantasy.league.model.ui.PlayerBean;
 
@@ -28,15 +32,19 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
     int count_alrounder=0;
     int count_bowl=0;
     int count_main=0;
-    
+    List<PlayerBean> beanList;
     PlayerInterface playerInterface;
-    public PlayerInfoAdapter(Context context, int resource, List<PlayerBean> list, int player_Type, PlayerInterface playerInterface) {
+    DbHelper dbHelper;
+    private boolean isFromLogin=false;
+    public PlayerInfoAdapter(Context context, int resource, List<PlayerBean> list, int player_Type, PlayerInterface playerInterface, boolean isFromLogin) {
         super(context,resource,list);
         this.context=context;
         this.resource=resource;
         this.list=list;
         this.player_Type=player_Type;
         this.playerInterface=playerInterface;
+        this.isFromLogin=isFromLogin;
+        dbHelper=new DbHelper(context);
     }
 
     @Override
@@ -46,17 +54,22 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        beanList = new ArrayList<>();
         convertView=LayoutInflater.from(context).inflate(resource,null);
         TextView txt_player_name = convertView.findViewById(R.id.txt_player_name);
         TextView txt_short_country = convertView.findViewById(R.id.txt_short_country);
         TextView txt_skill_player = convertView.findViewById(R.id.txt_skill_player);
         TextView txt_points = convertView.findViewById(R.id.txt_points);
         TextView txt_credits = convertView.findViewById(R.id.txt_credits);
-        TextView txt_captain=convertView.findViewById(R.id.txt_captain);
-        TextView txt_vice_captain=convertView.findViewById(R.id.txt_vice_captain);
+//        TextView txt_captain=convertView.findViewById(R.id.txt_captain);
+//        TextView txt_vice_captain=convertView.findViewById(R.id.txt_vice_captain);
+        CheckBox chk_vcaptain=convertView.findViewById(R.id.chk_vcaptain);
+        CheckBox chk_captain=convertView.findViewById(R.id.chk_captain);
 //        ImageView image_view_plus=convertView.findViewById(R.id.image_view_plus) ;
 
         PlayerBean bean=list.get(position);
+
         txt_player_name.setText(bean.getName());
         txt_points.setText(String.valueOf(bean.getPoints()));
         txt_credits.setText(String.valueOf(bean.getCredits()));
@@ -70,6 +83,14 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                 public void onClick(View v) {
                   //  Toast.makeText(context, bean.getName(), Toast.LENGTH_SHORT).show();
 
+                    chk_vcaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setViceCaptain(true);
+                            }
+                        }
+                    });
                     if (list.get(position).isChecked()) {
                         if(count_wk==1) {
                             count_wk--;
@@ -93,18 +114,41 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                             bean.setChecked(true);
                         }
                     }
+
+                    chk_captain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked){
+                                Toast.makeText(context, "checked", Toast.LENGTH_SHORT).show();
+                                bean.setCaptain(true);
+                            }
+                        }
+                    });
+                    chk_vcaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked){
+                                Toast.makeText(context, "checked", Toast.LENGTH_SHORT).show();
+                                bean.setViceCaptain(true);
+                            }
+                        }
+                    });
+                    dbHelper.saveMyTeam(bean);
+//                    dbHelper.saveMyTeam(beanList);
+                    Log.e("Bean--->",bean.toString());
                 }
 
             });
         }
         if(player_Type==0) {
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //  Toast.makeText(context, bean.getName(), Toast.LENGTH_SHORT).show();
-
                     if (list.get(position).isChecked()) {
                         if(count_bat>1) {
+                            //  Toast.makeText(context, bean.getName(), Toast.LENGTH_SHORT).show();
+
                             count_bat--;
                             
                             playerInterface.playerCount(player_Type,count_bat);
@@ -128,11 +172,29 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
 
 
                     }
+                    chk_captain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setCaptain(true);
+                            }
+                        }
+                    });
+                    chk_vcaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setViceCaptain(true);
+                            }
+                        }
+                    });
+                    dbHelper.saveMyTeam(bean);
                 }
 
             });
         }
         if(player_Type==2) {
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -165,11 +227,29 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
 
 
                     }
+                    chk_captain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setCaptain(true);
+                            }
+                        }
+                    });
+                    chk_vcaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setViceCaptain(true);
+                            }
+                        }
+                    });
+                    dbHelper.saveMyTeam(bean);
                 }
 
             });
         }
         if(player_Type==1) {
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -188,7 +268,7 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                             bean.setChecked(false);
                         }
                     } else {
-                        if(count_bowl<5) {
+                        if(count_bowl<2) {
                             count_bowl++;
                             
                             playerInterface.playerCount(player_Type,count_bowl);
@@ -198,15 +278,31 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                             finalConvertView.setBackgroundColor(Color.parseColor("#FFF4DD"));
                             bean.setChecked(true);
                         }
-
-
                     }
+                    chk_captain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setCaptain(true);
+                            }
+                        }
+                    });
+                    chk_vcaptain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(buttonView.isChecked()){
+                                bean.setViceCaptain(true);
+                            }
+                        }
+                    });
+                    dbHelper.saveMyTeam(bean);
                 }
 
             });
         }
+
 //        if(count_wk==1 && count_alrounder==3 && count_bat==5 && count_bowl==5){
-        finalConvertView.setOnLongClickListener(new View.OnLongClickListener() {
+        /*finalConvertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(context, "Long Pressed", Toast.LENGTH_SHORT).show();
@@ -219,18 +315,27 @@ public class PlayerInfoAdapter extends ArrayAdapter<PlayerBean> {
                         if(item.getTitle().equals("Captain")){
                             bean.setCaptain(true);
                             txt_captain.setVisibility(View.VISIBLE);
+                            beanList.remove(bean.getName());
+
                         }else{
                             bean.setViceCaptain(true);
                             txt_vice_captain.setVisibility(View.VISIBLE);
+                            beanList.remove(bean.getName());
 
                         }
+                        beanList.add(bean);
+                       // dbHelper.deleteMyTeam();
+                        dbHelper.saveMyTeam(beanList);
+                        *//*if(!isFromLogin) {
+                            dbHelper.saveMyTeam(beanList);
+                        }*//*
                         return true;
                     }
                 });
                 menu.show();
                 return true;
             }
-        });
+        });*/
 //        }
 
 

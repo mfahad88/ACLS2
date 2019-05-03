@@ -13,14 +13,20 @@
         android:layout_centerHorizontal="true"
         >
 
-        <ImageView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_teamOne"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+        <!--<ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/drawable_au"
+            android:background="@null"
             android:scaleType="centerCrop"
             android:id="@+id/image_team_one"
             android:layout_margin="20dp"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"/>-->
 
         <TextView
             android:layout_width="100dp"
@@ -32,13 +38,19 @@
             android:id="@+id/txt_time"
             android:gravity="center"/>
 
-        <ImageView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_teamTwo"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+        <!--<ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/drawable_au"
+            android:background="@null"
             android:scaleType="centerCrop"
             android:id="@+id/image_team_two"
             android:layout_margin="20dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"/>-->
     </RelativeLayout>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.psl.fantasy.league.activity;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.psl.fantasy.league.R;
 import com.psl.fantasy.league.Utils.Helper;
 import com.psl.fantasy.league.fragment.DashboardFragment;
+import com.psl.fantasy.league.fragment.TeamFragment;
 
 
 import java.io.IOException;
@@ -54,6 +56,7 @@ public class StartActivity extends AppCompatActivity {
                 return false;
             }
         });
+
         navigation.setSelectedItemId(R.id.navigation_home);
     }
 

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.psl.fantasy.league.Utils.Helper;
 import com.psl.fantasy.league.fragment.CreateTeamFragment;
 import com.psl.fantasy.league.interfaces.FragmentInterface;
 
@@ -21,6 +22,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         this.fragmentInterface=fragmentInterface;
         this.teamId1=teamId1;
         this.teamId2=teamId2;
+
     }
 
     @Override

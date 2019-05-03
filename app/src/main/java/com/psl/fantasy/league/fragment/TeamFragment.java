@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class TeamFragment extends Fragment {
     private int contestId;
     private Button btn_done;
     int teamId1; int teamId2;
+    private boolean isFromLogin=false;
     public TeamFragment() {
         // Required empty public constructor
     }
@@ -86,19 +88,25 @@ public class TeamFragment extends Fragment {
                     main--;
                 }
                 txt_player_count.setText(String.valueOf(main));
-                if(main==14){
+                //if(main==14){
                     btn_done.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            FragmentManager fm=getFragmentManager();
-                            SignupFragment fragment=new SignupFragment();
-                            fragment.show(fm,"SignUp");
+                            //if condition put here
+                            Fragment fragment=new LoginFragment();
+                            Bundle bundle=new Bundle();
+                            bundle.putDouble("credit", credit);
+                            bundle.putInt("contestId",contestId);
+                            fragment.setArguments(bundle);
+                            FragmentTransaction ft=getFragmentManager().beginTransaction();
+                            ft.replace(R.id.main_content,fragment);
+                            ft.commit();
                             //Helper.showAlertNetural(mView.getContext(),"Suceess","Team Saved...");
                         }
                     });
                 }
 
-            }
+            //}
 
             @Override
             public void credit(double count) {
@@ -112,6 +120,7 @@ public class TeamFragment extends Fragment {
             }
 
         };
+
         tab_layout.addTab(tab_layout.newTab().setText("WK (0)"));
         tab_layout.addTab(tab_layout.newTab().setText("BAT (0)"));
         tab_layout.addTab(tab_layout.newTab().setText("AR (0)"));

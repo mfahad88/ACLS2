@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.Utils.Helper;
 import com.psl.fantasy.league.fragment.ContestFragment;
 import com.psl.fantasy.league.model.ui.MatchesBean;
 
@@ -57,12 +58,16 @@ public class FixtureAdapter extends ArrayAdapter<MatchesBean> {
         final MatchesBean bean=list.get(position);
         Log.e("MatchesBean",bean.toString());
         Drawable drawable = null,drawable2 = null;
-        ImageView image_team_one = convertView.findViewById(R.id.image_team_one);
-        ImageView image_team_two = convertView.findViewById(R.id.image_team_two);
+        /*ImageView image_team_one = convertView.findViewById(R.id.image_team_one);
+        ImageView image_team_two = convertView.findViewById(R.id.image_team_two);*/
+        TextView txt_teamOne=convertView.findViewById(R.id.txt_teamOne);
+        TextView txt_teamTwo=convertView.findViewById(R.id.txt_teamTwo);
         final TextView txt_time = convertView.findViewById(R.id.txt_time);
 
         try{
-            if(bean.getTeamOne().equalsIgnoreCase("pakistan")){
+            txt_teamOne.setText(bean.getTeamOne());
+            txt_teamTwo.setText(bean.getTeamTwo());
+          /*  if(bean.getTeamOne().equalsIgnoreCase("pakistan")){
                 drawable= context.getDrawable(R.drawable.drawable_pk);
             }if(bean.getTeamOne().equalsIgnoreCase("bangladesh")){
                 drawable= context.getDrawable(R.drawable.drawable_bd);
@@ -73,11 +78,11 @@ public class FixtureAdapter extends ArrayAdapter<MatchesBean> {
             }if(bean.getTeamOne().equalsIgnoreCase("australia")){
                 drawable= context.getDrawable(R.drawable.drawable_au);
             }
-        /*if(bean.getTeamOne().equalsIgnoreCase("za")){
+        *//*if(bean.getTeamOne().equalsIgnoreCase("za")){
                 drawable= context.getDrawable(R.drawable.drawable_sa);
             }if(bean.getTeamOne().equalsIgnoreCase("zw")){
                 drawable= context.getDrawable(R.drawable.drawable_zmb);
-            }*/
+            }*//*
 
             if(bean.getTeamTwo().equalsIgnoreCase("pakistan")){
                 drawable2= context.getDrawable(R.drawable.drawable_pk);
@@ -94,7 +99,7 @@ public class FixtureAdapter extends ArrayAdapter<MatchesBean> {
 
 
             Glide.with(context).load(drawable).into(image_team_one);
-            Glide.with(context).load(drawable2).into(image_team_two);
+            Glide.with(context).load(drawable2).into(image_team_two);*/
             txt_time.post(new Runnable() {
                 @Override
                 public void run() {
@@ -104,6 +109,8 @@ public class FixtureAdapter extends ArrayAdapter<MatchesBean> {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e("Dashboard",bean.getTeam_id1()+","+bean.getTeam_id2());
+                    //Helper.showAlertNetural(context,"Id",bean.getTeam_id1()+","+bean.getTeam_id2());
                     Fragment fragment=new ContestFragment();
                     Bundle bundle=new Bundle();
                     bundle.putInt("match_id",bean.getMatchId());

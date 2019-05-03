@@ -48,6 +48,7 @@ public class Helper {
             "/to87hLEmFzWgiC8zzyHvWDzjvNJEGfPa9J0RDYjxEES7kuyhRY4KLxDowIDAQAB";
     public static final String SHARED_PREF = "PSL_FANTSY";
     public static final String MY_USER = "MyUser";
+    public static final String isFromLogin="isFromLogin";
     public static void showAlertNetural(Context ctx, String title, String message){
         AlertDialog.Builder builder=new AlertDialog.Builder(ctx);
         builder.setTitle(title).setMessage(message);
@@ -265,6 +266,21 @@ public class Helper {
         }
 
         return result.toString(StandardCharsets.UTF_8.name());
+    }
 
+    public static void printHashKey(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i("Facebook", "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("Facebook", "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e("Facebook", "printHashKey()", e);
+        }
     }
 }

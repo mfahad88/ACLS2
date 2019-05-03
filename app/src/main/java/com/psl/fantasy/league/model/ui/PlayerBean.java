@@ -1,6 +1,7 @@
 package com.psl.fantasy.league.model.ui;
 
 public class PlayerBean {
+    private int Id;
     private String name;
     private String short_country;
     private String skill;
@@ -10,15 +11,14 @@ public class PlayerBean {
     private boolean isCaptain;
     private boolean isViceCaptain;
 
-    public PlayerBean(String name, String short_country, String skill, double points, double credits, boolean isChecked, boolean isCaptain, boolean isViceCaptain) {
-        this.name = name;
-        this.short_country = short_country;
-        this.skill = skill;
-        this.points = points;
-        this.credits = credits;
-        this.isChecked = isChecked;
-        this.isCaptain = isCaptain;
-        this.isViceCaptain = isViceCaptain;
+
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getName() {
@@ -88,7 +88,8 @@ public class PlayerBean {
     @Override
     public String toString() {
         return "PlayerBean{" +
-                "name='" + name + '\'' +
+                "Id=" + Id +
+                ", name='" + name + '\'' +
                 ", short_country='" + short_country + '\'' +
                 ", skill='" + skill + '\'' +
                 ", points=" + points +

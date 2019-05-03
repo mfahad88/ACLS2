@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.psl.fantasy.league.R;
 import com.psl.fantasy.league.Utils.DbHelper;
+import com.psl.fantasy.league.Utils.Helper;
 import com.psl.fantasy.league.adapter.PlayerInfoAdapter;
 import com.psl.fantasy.league.interfaces.FragmentInterface;
 import com.psl.fantasy.league.interfaces.PlayerInterface;
@@ -40,6 +41,7 @@ public class CreateTeamFragment extends Fragment {
     FragmentInterface fragmentInterface;
     DbHelper dbHelper;
     int teamId1; int teamId2;
+    private boolean isFromLogin=false;
     public CreateTeamFragment(FragmentInterface fragmentInterface) {
         this.fragmentInterface=fragmentInterface;
     }
@@ -70,11 +72,22 @@ public class CreateTeamFragment extends Fragment {
         }if(Player_Type==1) {
             txt_selection.setText("Pick 3-5 Bowlers");
         }
+
         List<Datum> playerData=dbHelper.getPlayersById(String.valueOf(teamId1),String.valueOf(teamId2));
         List<PlayerBean> player = new ArrayList<>();
         for(Datum datum:playerData){
-            player.add(new PlayerBean(datum.getName(),datum.getTeamName(),String.valueOf(Player_Type),
-                    Double.parseDouble(datum.getPrice()),Double.parseDouble(datum.getAvg()),false,false,false));
+            PlayerBean bean=new PlayerBean();
+            bean.setId(datum.getPlayerId());
+            bean.setName(datum.getName());
+            bean.setShort_country(datum.getTeamName());
+            bean.setSkill(String.valueOf(Player_Type));
+            bean.setCredits(Double.parseDouble(datum.getPrice()));
+            bean.setPoints(Double.parseDouble(datum.getAvg()));
+            bean.setChecked(false);
+            bean.setCaptain(false);
+            bean.setViceCaptain(false);
+
+            player.add(bean);
 
         }
         /*List<PlayerBean> player=new ArrayList<>();
@@ -137,7 +150,7 @@ public class CreateTeamFragment extends Fragment {
                 fragmentInterface.credit(count);
             }
         };
-        PlayerInfoAdapter adapter=new PlayerInfoAdapter(mView.getContext(),R.layout.player_info_adapter,list,Player_Type,playerInterface);
+        PlayerInfoAdapter adapter=new PlayerInfoAdapter(mView.getContext(),R.layout.player_info_adapter,list,Player_Type,playerInterface,isFromLogin);
         list_player.setAdapter(adapter);
 
 

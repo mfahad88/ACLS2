@@ -71,13 +71,15 @@ public class ContestFragment extends Fragment {
                                 if(response.body().getResponseCode().equals("1001")){
                                     for(Datum datum:response.body().getData()){
                                         if(datum.getIsVisible().equals("1")){
-                                            int percent=((datum.getPool()-datum.getPoolConsumed())/datum.getPoolConsumed())*100;
-                                            list.add(new ContestBean(datum.getContestId(),datum.getWinningPoints(),percent,String.valueOf(datum.getPool()-datum.getPoolConsumed())
-                                                    ,datum.getWinners(),datum.getDiscount().toString(),datum.getEnteryFee(),datum.getMultipleAllowed(),datum.getConfirmedWinning(),datum.getContestType()));
-                                            progressBar.setVisibility(View.GONE);
-                                            list_contest.setVisibility(View.VISIBLE);
-                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.list_contest,list,TeamId1,TeamId2);
-                                            list_contest.setAdapter(adapter);
+                                            if(datum.getPoolConsumed()>0){
+                                                int percent=((datum.getPool()-datum.getPoolConsumed())/datum.getPoolConsumed())*100;
+                                                list.add(new ContestBean(datum.getContestId(),datum.getWinningPoints(),percent,String.valueOf(datum.getPool()-datum.getPoolConsumed())
+                                                        ,datum.getWinners(),datum.getDiscount().toString(),datum.getEnteryFee(),datum.getMultipleAllowed(),datum.getConfirmedWinning(),datum.getContestType()));
+                                                progressBar.setVisibility(View.GONE);
+                                                list_contest.setVisibility(View.VISIBLE);
+                                                ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.list_contest,list,TeamId1,TeamId2);
+                                                list_contest.setAdapter(adapter);
+                                            }
                                         }
                                     }
 

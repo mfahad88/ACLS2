@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.psl.fantasy.league.model.response.Player.Datum;
+import com.psl.fantasy.league.model.ui.PlayerBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,13 +84,15 @@ public class DbHelper extends SQLiteOpenHelper {
     private static String SKILLS = "Skills";
     private static String ISCAPTAIN = "IsCaptain";
     private static String ISWCAPTAIN = "isWCaption" ;
+    private static String ISCHECKED = "ISCHECKED" ;
     private static String TBL_MY_TEAM = "tbl_my_team";
     public static final String CREATE_TBL_MY_TEAM="CREATE TABLE "+TBL_MY_TEAM+ "("+ID+ " INTEGER " +
             ", "+NAME+" TEXT " +
             ", "+PRICE+" TEXT" +
             ", "+SKILLS+" TEXT" +
             ", "+ISCAPTAIN+" INTEGER" +
-            ", "+ISWCAPTAIN+" INTEGER)";
+            ", "+ISWCAPTAIN+" INTEGER" +
+            ", "+ISCHECKED+" INTEGER)";
     Context cntxt;
 
 
@@ -290,5 +293,184 @@ public class DbHelper extends SQLiteOpenHelper {
 
         }
         return list;
+    }
+
+
+    public long saveMyTeam(PlayerBean bean) {
+        // Gets the data repository in write mode
+        long processId = 0;
+        SQLiteDatabase db=null;
+
+        try{
+            db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+                values.put(ID,bean.getId());
+                values.put(NAME,bean.getName());
+                values.put(PRICE,bean.getPoints());
+                values.put(SKILLS,bean.getSkill());
+                if(bean.isCaptain()) {
+                    values.put(ISCAPTAIN, 1);
+                }else{
+                    values.put(ISCAPTAIN, 0);
+                }
+                if(bean.isViceCaptain()) {
+                    values.put(ISWCAPTAIN, 1);
+                }else{
+                    values.put(ISWCAPTAIN,0);
+                }
+                if(bean.isChecked()) {
+                    values.put(ISCHECKED, 1);
+                }else {
+                    values.put(ISCHECKED,0);
+                }
+                processId = db.insert(TBL_MY_TEAM, null, values);
+                Log.e("SQLiteDatabase",bean.toString());
+
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }	finally
+        {
+            if(db!=null)
+                if(db.isOpen())
+                    db.close();
+        }
+
+        return processId;
+    }
+
+    public long saveMyTeam(List<PlayerBean> list) {
+        // Gets the data repository in write mode
+        long processId = 0;
+        SQLiteDatabase db=null;
+
+        try{
+            db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            for(PlayerBean bean:list){
+                values.put(ID,bean.getId());
+                values.put(NAME,bean.getName());
+                values.put(PRICE,bean.getPoints());
+                values.put(SKILLS,bean.getSkill());
+                if(bean.isCaptain()) {
+                    values.put(ISCAPTAIN, 1);
+                }else{
+                    values.put(ISCAPTAIN, 0);
+                }
+                if(bean.isViceCaptain()) {
+                    values.put(ISWCAPTAIN, 1);
+                }else{
+                    values.put(ISWCAPTAIN,0);
+                }
+                if(bean.isChecked()) {
+                    values.put(ISCHECKED, 1);
+                }else {
+                    values.put(ISCHECKED,0);
+                }
+                processId = db.insert(TBL_MY_TEAM, null, values);
+                Log.e("SQLiteDatabase",bean.toString());
+            }
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }	finally
+        {
+            if(db!=null)
+                if(db.isOpen())
+                    db.close();
+        }
+
+        return processId;
+    }
+
+    public List<PlayerBean> getMyTeam(){
+        List<PlayerBean> list = new ArrayList<>();
+        Cursor c = null ;
+        try {
+
+            String query = "SELECT * FROM " + TBL_MY_TEAM ;
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            c = db.rawQuery(query, null);
+
+            if (c.moveToFirst()) {
+                do {
+                    PlayerBean bean=new PlayerBean();
+                    bean.setId(c.getInt(c.getColumnIndex(ID)));
+                    bean.setName(c.getString(c.getColumnIndex(NAME)));
+                    bean.setPoints(Double.parseDouble(c.getString(c.getColumnIndex(PRICE))));
+                    bean.setSkill(c.getString(c.getColumnIndex(SKILLS)));
+                    if(c.getInt(c.getColumnIndex(ISCAPTAIN))==1) {
+                        bean.setCaptain(true);
+                    }else{
+                        bean.setCaptain(false);
+                    }
+                    if(c.getInt(c.getColumnIndex(ISWCAPTAIN))==1){
+                        bean.setViceCaptain(true);
+                    }else{
+                        bean.setViceCaptain(false);
+                    }
+                    if(c.getInt(c.getColumnIndex(ISCHECKED))==1){
+                        bean.setChecked(true);
+                    }else{
+                        bean.setChecked(false);
+                    }
+
+                    list.add(bean);
+                    Log.e("Value--->",list.toString());
+                } while (c.moveToNext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            if(c!=null)
+                c.close();
+
+        }
+        return list;
+    }
+
+    public void deleteConfig(){
+        try {
+            String query="delete from "+ TBL_CONFIG;
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(query);
+            Log.e("SQLiteDatabase",query);
+            db.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePlayer(){
+        try {
+            String query="delete from "+ TBL_PLAYERS;
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(query);
+            Log.e("SQLiteDatabase",query);
+            db.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMyTeam(){
+        try {
+            String query="delete from "+ TBL_MY_TEAM;
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL(query);
+            Log.e("SQLiteDatabase",query);
+            db.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
