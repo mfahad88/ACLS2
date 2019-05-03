@@ -14,10 +14,13 @@ public class PageAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
     Fragment fragment;
     FragmentInterface fragmentInterface;
-    public PageAdapter(FragmentManager fm, int numOfTabs, FragmentInterface fragmentInterface) {
+    int teamId1; int teamId2;
+    public PageAdapter(FragmentManager fm, int numOfTabs, FragmentInterface fragmentInterface, int teamId1, int teamId2) {
         super(fm);
         this.numOfTabs = numOfTabs;
         this.fragmentInterface=fragmentInterface;
+        this.teamId1=teamId1;
+        this.teamId2=teamId2;
     }
 
     @Override
@@ -28,6 +31,8 @@ public class PageAdapter extends FragmentPagerAdapter {
                 fragment=new CreateTeamFragment(fragmentInterface);
                 Bundle bundle_wk=new Bundle();
                 bundle_wk.putInt("Player_Type",3);
+                bundle_wk.putInt("teamId1",teamId1);
+                bundle_wk.putInt("teamId2",teamId2);
                 fragment.setArguments(bundle_wk);
                 Log.e("Player_Type", String.valueOf(3));
                 return fragment;
@@ -35,6 +40,8 @@ public class PageAdapter extends FragmentPagerAdapter {
                 fragment=new CreateTeamFragment(fragmentInterface);
                 Bundle bundle_bat=new Bundle();
                 bundle_bat.putInt("Player_Type",0);
+                bundle_bat.putInt("teamId1",teamId1);
+                bundle_bat.putInt("teamId2",teamId2);
                 fragment.setArguments(bundle_bat);
                 Log.e("Player_Type", String.valueOf(0));
                 return fragment;
@@ -42,6 +49,8 @@ public class PageAdapter extends FragmentPagerAdapter {
                 fragment=new CreateTeamFragment(fragmentInterface);
                 Bundle bundle_ar=new Bundle();
                 bundle_ar.putInt("Player_Type",2);
+                bundle_ar.putInt("teamId1",teamId1);
+                bundle_ar.putInt("teamId2",teamId2);
                 fragment.setArguments(bundle_ar);
                 Log.e("Player_Type", String.valueOf(2));
                 return fragment;
@@ -49,6 +58,8 @@ public class PageAdapter extends FragmentPagerAdapter {
                 fragment=new CreateTeamFragment(fragmentInterface);
                 Bundle bundle_bowl=new Bundle();
                 bundle_bowl.putInt("Player_Type",1);
+                bundle_bowl.putInt("teamId1",teamId1);
+                bundle_bowl.putInt("teamId2",teamId2);
                 fragment.setArguments(bundle_bowl);
                 Log.e("Player_Type", String.valueOf(1));
                 return fragment;

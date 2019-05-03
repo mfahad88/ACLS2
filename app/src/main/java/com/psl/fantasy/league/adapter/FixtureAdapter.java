@@ -23,6 +23,7 @@ import com.psl.fantasy.league.fragment.ContestFragment;
 import com.psl.fantasy.league.model.ui.MatchesBean;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class FixtureAdapter extends ArrayAdapter<MatchesBean> {
@@ -94,8 +95,12 @@ public class FixtureAdapter extends ArrayAdapter<MatchesBean> {
 
             Glide.with(context).load(drawable).into(image_team_one);
             Glide.with(context).load(drawable2).into(image_team_two);
-            txt_time.setText(bean.getTime());
-
+            txt_time.post(new Runnable() {
+                @Override
+                public void run() {
+                    txt_time.setText(sdf.format(new Date()));
+                }
+            });
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

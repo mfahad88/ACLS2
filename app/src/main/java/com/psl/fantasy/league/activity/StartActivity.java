@@ -1,16 +1,25 @@
-package com.psl.fantasy.league;
+package com.psl.fantasy.league.activity;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.Utils.Helper;
 import com.psl.fantasy.league.fragment.DashboardFragment;
+
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 public class StartActivity extends AppCompatActivity {
 

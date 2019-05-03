@@ -1,8 +1,10 @@
 package com.psl.fantasy.league.interfaces;
 
 import com.psl.fantasy.league.model.request.TestBeanRequest;
+import com.psl.fantasy.league.model.response.Config.ConfigBeanResponse;
 import com.psl.fantasy.league.model.response.Contest.ContestResponse;
 import com.psl.fantasy.league.model.response.Matches.MatchesResponse;
+import com.psl.fantasy.league.model.response.Player.PlayerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,4 +20,9 @@ public interface ApiInterface {
     @POST("getAllContest")
     Call<ContestResponse> getAllContest(@Body TestBeanRequest beanRequest);
 
+    @POST("getPlayersMatches")
+    Call<PlayerResponse> getPlayersMatches();
+
+    @POST("config")
+    Call<ConfigBeanResponse> getConfig(@Body TestBeanRequest beanRequest);
 }

@@ -1,9 +1,17 @@
 package com.psl.fantasy.league.Utils;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.psl.fantasy.league.model.response.Player.Datum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -108,7 +116,7 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-   /* public long saveConfig(List<league.fantasy.psl.com.apnicricketleague.model.response.Config.Datum> list) {
+    public long saveConfig(List<com.psl.fantasy.league.model.response.Config.Datum> list) {
         // Gets the data repository in write mode
         long processId = 0;
         SQLiteDatabase db=null;
@@ -116,7 +124,7 @@ public class DbHelper extends SQLiteOpenHelper {
         try{
             db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            for(league.fantasy.psl.com.apnicricketleague.model.response.Config.Datum datum:list){
+            for(com.psl.fantasy.league.model.response.Config.Datum datum:list){
                 values.put(PARAM_CODE,Integer.parseInt(datum.getParamCode()));
                 values.put(PARAM_TYPE,datum.getParamType());
                 values.put(DESCRIPTION,datum.getDesc());
@@ -141,7 +149,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return processId;
     }
 
-    public long savePlayers(List<league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum> list) {
+    public long savePlayers(List<com.psl.fantasy.league.model.response.Player.Datum> list) {
         // Gets the data repository in write mode
         long processId = 0;
         SQLiteDatabase db=null;
@@ -149,7 +157,7 @@ public class DbHelper extends SQLiteOpenHelper {
         try{
             db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
-            for(league.fantasy.psl.com.apnicricketleague.model.response.Player.Datum datum:list){
+            for(com.psl.fantasy.league.model.response.Player.Datum datum:list){
                 values.put(team_id,datum.getTeamId().intValue());
                 values.put(team_name,datum.getTeamName());
                 values.put(player_id,String.valueOf(datum.getPlayerId()));
@@ -186,8 +194,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return processId;
     }
 
-    public List<Datum> getPlayers(String team_id){
-        List<Datum> list=new ArrayList<>();
+    public List<com.psl.fantasy.league.model.response.Player.Datum> getPlayers(String team_id){
+        List<com.psl.fantasy.league.model.response.Player.Datum> list=new ArrayList<>();
         Cursor c = null ;
         try {
 
@@ -198,7 +206,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
             if (c.moveToFirst()) {
                 do {
-                    Datum datum=new Datum();
+                    com.psl.fantasy.league.model.response.Player.Datum datum=new com.psl.fantasy.league.model.response.Player.Datum();
                     datum.setTeamId(c.getInt(c.getColumnIndex(team_id)));
                     datum.setTeamName(c.getString(c.getColumnIndex(team_name)));
                     datum.setPlayerId(c.getInt(c.getColumnIndex(player_id)));
@@ -234,7 +242,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<Datum> getPlayersById(String teamId1,String teamId2){
+
+    public List<Datum> getPlayersById(String teamId1, String teamId2){
         List<Datum> list=new ArrayList<>();
         Cursor c = null ;
         try {
@@ -282,139 +291,4 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return list;
     }
-
-    public long saveMyTeam(List<PlayerBean> list) {
-        // Gets the data repository in write mode
-        long processId = 0;
-        SQLiteDatabase db=null;
-
-        try{
-            db = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            for(PlayerBean bean:list){
-                values.put(ID,bean.getId());
-                values.put(NAME,bean.getName());
-                values.put(PRICE,bean.getPrice());
-                values.put(SKILLS,bean.getSkills());
-                values.put(ISCAPTAIN,bean.getIsCaptain());
-                values.put(ISWCAPTAIN,bean.getIsWCaption());
-                processId = db.insert(TBL_MY_TEAM, null, values);
-                Log.e("SQLiteDatabase",bean.toString());
-            }
-
-
-        }catch (SQLException e){
-            e.printStackTrace();
-        }	finally
-        {
-            if(db!=null)
-                if(db.isOpen())
-                    db.close();
-        }
-
-        return processId;
-    }
-
-    public List<PlayerBean> getMyTeam(){
-        List<PlayerBean> list = new ArrayList<>();
-        Cursor c = null ;
-        try {
-
-            String query = "SELECT * FROM " + TBL_MY_TEAM ;
-
-            SQLiteDatabase db = this.getReadableDatabase();
-            c = db.rawQuery(query, null);
-
-            if (c.moveToFirst()) {
-                do {
-                    PlayerBean bean=new PlayerBean();
-                    bean.setId(c.getInt(c.getColumnIndex(ID)));
-                    bean.setName(c.getString(c.getColumnIndex(NAME)));
-                    bean.setPrice(c.getString(c.getColumnIndex(PRICE)));
-                    bean.setSkills(c.getString(c.getColumnIndex(SKILLS)));
-                    bean.setIsCaptain(c.getInt(c.getColumnIndex(ISCAPTAIN)));
-                    bean.setIsWCaption(c.getInt(c.getColumnIndex(ISWCAPTAIN)));
-                    list.add(bean);
-                    Log.e("Value--->",list.toString());
-                } while (c.moveToNext());
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally{
-            if(c!=null)
-                c.close();
-
-        }
-        return list;
-    }
-
-    public List<String> getConfig(){
-        List<String> list = new ArrayList<>();
-        Cursor c = null ;
-        try {
-
-            String query = "SELECT * FROM " + TBL_CONFIG ;
-
-            SQLiteDatabase db = this.getReadableDatabase();
-            c = db.rawQuery(query, null);
-
-            if (c.moveToFirst()) {
-                do {
-
-                list.add(c.getString(c.getColumnIndex(CONFIG_VAL)));
-                    Log.e("Value--->",c.getString(c.getColumnIndex(CONFIG_VAL)));
-                } while (c.moveToNext());
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally{
-            if(c!=null)
-                c.close();
-
-        }
-        return list;
-    }
-
-    public void deleteConfig(){
-        try {
-            String query="delete from "+ TBL_CONFIG;
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL(query);
-            Log.e("SQLiteDatabase",query);
-            db.close();
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void deletePlayer(){
-        try {
-            String query="delete from "+ TBL_PLAYERS;
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL(query);
-            Log.e("SQLiteDatabase",query);
-            db.close();
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteMyTeam(){
-        try {
-            String query="delete from "+ TBL_MY_TEAM;
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL(query);
-            Log.e("SQLiteDatabase",query);
-            db.close();
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }*/
 }

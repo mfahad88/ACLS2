@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.psl.fantasy.league.R;
 import com.psl.fantasy.league.Utils.Helper;
@@ -37,6 +38,7 @@ public class ContestFragment extends Fragment {
     private ListView list_contest;
     int match_id;
     int TeamId1,TeamId2;
+    private ProgressBar progressBar;
     public ContestFragment() {
         // Required empty public constructor
     }
@@ -47,7 +49,7 @@ public class ContestFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView=inflater.inflate(R.layout.fragment_contest, container, false);
-
+        progressBar=mView.findViewById(R.id.progressBar);
         list_contest=mView.findViewById(R.id.list_contest);
         try {
             if(getArguments()!=null) {
@@ -72,7 +74,9 @@ public class ContestFragment extends Fragment {
                                             int percent=((datum.getPool()-datum.getPoolConsumed())/datum.getPoolConsumed())*100;
                                             list.add(new ContestBean(datum.getContestId(),datum.getWinningPoints(),percent,String.valueOf(datum.getPool()-datum.getPoolConsumed())
                                                     ,datum.getWinners(),datum.getDiscount().toString(),datum.getEnteryFee(),datum.getMultipleAllowed(),datum.getConfirmedWinning(),datum.getContestType()));
-                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.list_contest,list);
+                                            progressBar.setVisibility(View.GONE);
+                                            list_contest.setVisibility(View.VISIBLE);
+                                            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.list_contest,list,TeamId1,TeamId2);
                                             list_contest.setAdapter(adapter);
                                         }
                                     }
@@ -87,12 +91,14 @@ public class ContestFragment extends Fragment {
                         }
                     });
 
-            /*list.add(new ContestBean("4000 RS",20,"10,000 spots left","40 winners","4000","5000","S","C","A"));
-            list.add(new ContestBean("4000 RS",40,"10,000 spots left","40 winners","0","5000","M","C","B"));
-            list.add(new ContestBean("4000 RS",60,"10,000 spots left","40 winners","0","5000","M","N","B"));
-            list.add(new ContestBean("4000 RS",80,"10,000 spots left","40 winners","0","5000","M","N","B"));
-            list.add(new ContestBean("4000 RS",100,"10,000 spots left","40 winners","0","5000","M","N","B"));*/
-
+          //if hardcoded data
+            /*list.add(new ContestBean(1,"20",20,"10,000 spots left","40 winners","4000","5000","S","C","A"));
+            list.add(new ContestBean(2,"40",40,"10,000 spots left","40 winners","0","5000","M","C","B"));
+            list.add(new ContestBean(3,"60",60,"10,000 spots left","40 winners","0","5000","M","N","B"));
+            list.add(new ContestBean(4,"100",80,"10,000 spots left","40 winners","0","5000","M","N","B"));
+            list.add(new ContestBean(5 ,"120",100,"10,000 spots left","40 winners","0","5000","M","N","B"));
+            ContestAdapter adapter=new ContestAdapter(mView.getContext(),R.layout.list_contest,list);
+            list_contest.setAdapter(adapter);*/
 
         }catch (Exception e){
             e.printStackTrace();

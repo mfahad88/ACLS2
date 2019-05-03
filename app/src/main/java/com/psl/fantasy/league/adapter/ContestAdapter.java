@@ -24,11 +24,13 @@ import java.util.List;
 
 public class ContestAdapter extends BaseAdapter {
 
-    Context context; int resource; List<ContestBean> list;
-    public ContestAdapter(Context context, int resource, List<ContestBean> list) {
+    Context context; int resource; List<ContestBean> list; int teamId1; int teamId2;
+    public ContestAdapter(Context context, int resource, List<ContestBean> list, int teamId1, int teamId2) {
         this.context=context;
         this.resource=resource;
         this.list=list;
+        this.teamId1=teamId1;
+        this.teamId2=teamId2;
     }
 
     @Override
@@ -89,6 +91,8 @@ public class ContestAdapter extends BaseAdapter {
                 Fragment fragment=new TeamFragment();
                 Bundle bundle=new Bundle();
                 bundle.putInt("contestId",bean.getContestId());
+                bundle.putInt("teamId1",teamId1);
+                bundle.putInt("teamId2",teamId2);
                 fragment.setArguments(bundle);
                 FragmentTransaction ft=((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.main_content,fragment);

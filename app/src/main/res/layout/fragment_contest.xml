@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e2e2e2"
-    tools:context=".activity.ContestActivity">
+    android:background="#e2e2e2">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,6 +41,11 @@
             android:padding="5dp"
             android:text="Contest Size"/>
     </RelativeLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/progressBar"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,5 +54,6 @@
         android:layout_marginRight="20dp"
         android:divider="@null"
         android:dividerHeight="15dp"
+        android:visibility="gone"
         android:id="@+id/list_contest"></ListView>
 </RelativeLayout>

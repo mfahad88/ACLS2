@@ -20,8 +20,12 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -247,5 +251,20 @@ public class Helper {
 
     public static boolean removeUserSession(SharedPreferences sharedPreferences,String key){
         return sharedPreferences.edit().remove(key).commit();
+    }
+
+    @SuppressLint("NewApi")
+    public static String convertInputStreamToString(InputStream inputStream)
+            throws IOException {
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            result.write(buffer, 0, length);
+        }
+
+        return result.toString(StandardCharsets.UTF_8.name());
+
     }
 }

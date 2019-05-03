@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.psl.fantasy.league.R;
 import com.psl.fantasy.league.Utils.Helper;
@@ -34,7 +35,7 @@ public class DashboardFragment extends Fragment {
     private ListView list_matches;
     private List<MatchesBean> list;
     private View mView;
-
+    private ProgressBar progressBar;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -48,10 +49,13 @@ public class DashboardFragment extends Fragment {
         mView=inflater.inflate(R.layout.fragment_dashboard, container, false);
         init();
         try{
-            /*list.add(new MatchesBean(1,"PK","AU","14:30:00",1,2));
-            list.add(new MatchesBean(2,"IN","BD","15:30:00",3,4));
-            list.add(new MatchesBean(3,"ZA","ZW","16:30:00",5,6));*/
+            // if hardcode data
+            /*list.add(new MatchesBean(1,"pakistan","australia","14:30:00",1,2));
+            list.add(new MatchesBean(2,"india","bangladesh","15:30:00",3,4));
+            list.add(new MatchesBean(3,"srilanka","srilanka","16:30:00",5,6));
 
+            FixtureAdapter fixtureAdapter=new FixtureAdapter(mView.getContext(),R.layout.list_fixture,list);
+            list_matches.setAdapter(fixtureAdapter);*/
             JSONObject object=new JSONObject();
             object.put("method_Name",this.getClass().getSimpleName()+".onCreateView");
             ApiClient.getInstance().matches(Helper.encrypt(object.toString()))
@@ -63,22 +67,25 @@ public class DashboardFragment extends Fragment {
                                     for(Datum bean:response.body().getData()){
 
                                         list.add(new MatchesBean(bean.getMatchId().intValue(),bean.getTeamId1Name(),bean.getTeamId2Name(),bean.getStartDate(),bean.getTeamId1().intValue(),bean.getTeamId2().intValue()));
+                                        progressBar.setVisibility(View.GONE);
+                                        list_matches.setVisibility(View.VISIBLE);
                                         FixtureAdapter fixtureAdapter=new FixtureAdapter(mView.getContext(),R.layout.list_fixture,list);
                                         list_matches.setAdapter(fixtureAdapter);
                                     }
 
+                                }else{
+                                    Helper.showAlertNetural(mView.getContext(),"Error",response.body().getMessage());
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(Call<MatchesResponse> call, Throwable t) {
-
+                            t.fillInStackTrace();
+                            Helper.showAlertNetural(mView.getContext(),"Error",t.getMessage());
                         }
                     });
-            for(MatchesBean bean:list){
-                Log.e("MatchesBean",bean.toString());
-            }
+
 
             /*list_matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -96,6 +103,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void init(){
+        progressBar=mView.findViewById(R.id.progressBar);
         list_matches=mView.findViewById(R.id.list_matches);
         list=new ArrayList<>();
     }

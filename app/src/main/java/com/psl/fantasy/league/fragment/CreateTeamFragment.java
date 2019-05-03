@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.psl.fantasy.league.R;
+import com.psl.fantasy.league.Utils.DbHelper;
 import com.psl.fantasy.league.adapter.PlayerInfoAdapter;
 import com.psl.fantasy.league.interfaces.FragmentInterface;
 import com.psl.fantasy.league.interfaces.PlayerInterface;
+import com.psl.fantasy.league.model.response.Player.Datum;
 import com.psl.fantasy.league.model.ui.PlayerBean;
 
 import java.util.ArrayList;
@@ -34,16 +38,13 @@ public class CreateTeamFragment extends Fragment {
     int Player_Type;
     PlayerInterface playerInterface;
     FragmentInterface fragmentInterface;
-
+    DbHelper dbHelper;
+    int teamId1; int teamId2;
     public CreateTeamFragment(FragmentInterface fragmentInterface) {
         this.fragmentInterface=fragmentInterface;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Toast.makeText(mView.getContext(), "OnResume CreateTeamFragment", Toast.LENGTH_SHORT).show();
-    }
+
 
     @TargetApi(Build.VERSION_CODES.N)
     @Override
@@ -53,9 +54,13 @@ public class CreateTeamFragment extends Fragment {
         mView=inflater.inflate(R.layout.fragment_create_team, container, false);
         list_player=mView.findViewById(R.id.list_player);
         TextView txt_selection=mView.findViewById(R.id.txt_selection);
+        dbHelper=new DbHelper(mView.getContext());
         if(getArguments()!=null){
             Player_Type=getArguments().getInt("Player_Type"); //0=batting ,1=bowling,2=alrounder,3=keeper
+            teamId1=getArguments().getInt("teamId1");
+            teamId2=getArguments().getInt("teamId2");
         }
+
         if(Player_Type==3) {
             txt_selection.setText("You can pick only 1 Wicket-keeper");
         }if(Player_Type==0) {
@@ -65,7 +70,14 @@ public class CreateTeamFragment extends Fragment {
         }if(Player_Type==1) {
             txt_selection.setText("Pick 3-5 Bowlers");
         }
-        List<PlayerBean> player=new ArrayList<>();
+        List<Datum> playerData=dbHelper.getPlayersById(String.valueOf(teamId1),String.valueOf(teamId2));
+        List<PlayerBean> player = new ArrayList<>();
+        for(Datum datum:playerData){
+            player.add(new PlayerBean(datum.getName(),datum.getTeamName(),String.valueOf(Player_Type),
+                    Double.parseDouble(datum.getPrice()),Double.parseDouble(datum.getAvg()),false,false,false));
+
+        }
+        /*List<PlayerBean> player=new ArrayList<>();
         player.add(new PlayerBean("Kamran Akmal","PK","0",312.5,20.0,false,false,false));
         player.add(new PlayerBean("ABC","PK","0",312.5,20.0,false,false,false));
         player.add(new PlayerBean("ABC","AU","0",313.5,20.0,false,false,false));
@@ -105,7 +117,7 @@ public class CreateTeamFragment extends Fragment {
         player.add(new PlayerBean("XYZ","PK","3",316.5,20.0,false,false,false));
         player.add(new PlayerBean("XYZ","AU","3",317.5,20.0,false,false,false));
         player.add(new PlayerBean("GHI","PK","3",318.5,20.0,false,false,false));
-        player.add(new PlayerBean("GHI","AU","3",319.5,20.0,false,false,false));
+        player.add(new PlayerBean("GHI","AU","3",319.5,20.0,false,false,false));*/
         List<PlayerBean>list=player.stream().filter(p->p.getSkill().equals(String.valueOf(Player_Type))).collect(Collectors.toList());
 
         playerInterface=new PlayerInterface() {

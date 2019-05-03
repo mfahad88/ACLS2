@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -38,15 +39,12 @@ public class TeamFragment extends Fragment {
     public char sign;
     private int contestId;
     private Button btn_done;
+    int teamId1; int teamId2;
     public TeamFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Toast.makeText(mView.getContext(), "OnResume TeamFragment", Toast.LENGTH_SHORT).show();
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +53,8 @@ public class TeamFragment extends Fragment {
         mView=inflater.inflate(R.layout.fragment_team, container, false);
         if(getArguments()!=null){
             contestId=getArguments().getInt("contestId");
+            teamId1=getArguments().getInt("teamId1");
+            teamId2=getArguments().getInt("teamId2");
         }
         btn_done=mView.findViewById(R.id.btn_done);
         pager=mView.findViewById(R.id.pager);
@@ -90,7 +90,10 @@ public class TeamFragment extends Fragment {
                     btn_done.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Helper.showAlertNetural(mView.getContext(),"Suceess","Team Saved...");
+                            FragmentManager fm=getFragmentManager();
+                            SignupFragment fragment=new SignupFragment();
+                            fragment.show(fm,"SignUp");
+                            //Helper.showAlertNetural(mView.getContext(),"Suceess","Team Saved...");
                         }
                     });
                 }
@@ -115,7 +118,7 @@ public class TeamFragment extends Fragment {
         tab_layout.addTab(tab_layout.newTab().setText("BOWL (0)"));
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         pager.setOffscreenPageLimit(tab_layout.getTabCount());
-        adapter = new PageAdapter(getFragmentManager(),tab_layout.getTabCount(),fragmentInterface);
+        adapter = new PageAdapter(getFragmentManager(),tab_layout.getTabCount(),fragmentInterface,teamId1,teamId2);
         pager.setAdapter(adapter);
         tab_layout.setTabTextColors(ColorStateList.valueOf(Color.BLACK));
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
